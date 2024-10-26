@@ -1,6 +1,8 @@
 <resources>
     <string name="app_name">Virtaul Wiscard</string>
 
+    <string name="banner_title">Virtual Wiscard</string>
+
     //Change these values when we implement database
     <string name="student_name_placeholder">BUCKY BADGER</string>
     <string name="student_id_placeholder">012 345 6789</string>

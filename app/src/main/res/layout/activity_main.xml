@@ -7,96 +7,168 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <!-- University Banner -->
+    <!-- Red Top Banner -->
+    <RelativeLayout
+        android:id="@+id/topBanner"
+        android:layout_width="0dp"
+        android:layout_height="56dp"
+        android:background="#B71C1C"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <!-- UW-Madison Logo on the Left -->
+        <ImageView
+            android:id="@+id/uwLogo"
+            android:layout_width="56dp"
+            android:layout_height="52dp"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="0dp"
+            android:layout_marginLeft="4dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginEnd="4dp"
+            android:layout_marginRight="4dp"
+            android:layout_marginBottom="4dp"
+            android:src="@drawable/uw_logo" />
+
+        <!-- Title Text in the Center -->
+        <TextView
+            android:id="@+id/bannerTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/banner_title"
+            android:textColor="#FFFFFF"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:fontFamily="serif"
+            android:layout_centerInParent="true" />
+    </RelativeLayout>
+
+    <!-- University Banner Image -->
     <ImageView
         android:id="@+id/universityBanner"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="200dp"
         android:src="@drawable/university_banner"
-        app:layout_constraintTop_toTopOf="parent"
+        android:scaleType="centerCrop"
+        app:layout_constraintTop_toBottomOf="@id/topBanner"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
-    <!-- Profile Image -->
-    <ImageView
-        android:id="@+id/profileImage"
-        android:layout_width="120dp"
-        android:layout_height="120dp"
-        android:layout_marginTop="8dp"
-        android:src="@drawable/bucky_badger"
+    <!-- Profile Image with Black Rounded Border -->
+    <androidx.cardview.widget.CardView
+        android:id="@+id/profileImageFrame"
+        android:layout_width="145dp"
+        android:layout_height="145dp"
+        android:layout_marginTop="-65dp"
+        app:cardCornerRadius="16dp"
+        app:cardElevation="4dp"
+        app:cardBackgroundColor="#000000"
         app:layout_constraintTop_toBottomOf="@id/universityBanner"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent">
 
-    <!-- Name and ID Section -->
-    <TextView
-        android:id="@+id/studentName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="@string/student_name_placeholder"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        app:layout_constraintTop_toBottomOf="@id/profileImage"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/profileImage"
+        android:layout_width="140dp"
+        android:layout_height="140dp"
+        android:src="@drawable/bucky_badger"
+        android:layout_gravity="center"
+        android:scaleType="centerCrop"
+        app:shapeAppearanceOverlay="@style/RoundedImage" />
+</androidx.cardview.widget.CardView>
 
-    <TextView
-        android:id="@+id/studentID"
-        android:layout_width="wrap_content"
+    <!-- Gray Background Box for Student Information with Rounded Corners -->
+    <androidx.cardview.widget.CardView
+        android:id="@+id/infoBox"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="@string/student_id_placeholder"
-        app:layout_constraintTop_toBottomOf="@id/studentName"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
-
-    <!-- Occupation Section -->
-    <TextView
-        android:id="@+id/studentOccupation"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/student_occupation_placeholder"
-        android:textColor="@android:color/holo_red_dark"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        app:layout_constraintTop_toBottomOf="@id/studentID"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
-
-    <!-- Expiration and Issue Date Section -->
-    <TextView
-        android:id="@+id/expirationDate"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="@string/expiration_date_placeholder"
-        android:textSize="14sp"
-        android:textStyle="italic"
-        app:layout_constraintTop_toBottomOf="@id/studentOccupation"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
-
-    <TextView
-        android:id="@+id/issueDate"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/issue_date_placeholder"
-        android:textSize="14sp"
-        android:textStyle="italic"
-        app:layout_constraintTop_toBottomOf="@id/expirationDate"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
-
-    <!-- WISCard Logo -->
-    <ImageView
-        android:id="@+id/wiscardLogo"
-        android:layout_width="200dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:src="@drawable/wiscard_logo"
-        app:layout_constraintTop_toBottomOf="@id/issueDate"
+        app:cardCornerRadius="16dp"
+        app:cardElevation="4dp"
+        app:layout_constraintTop_toBottomOf="@id/profileImageFrame"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent" />
+        android:layout_marginTop="8dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:padding="16dp"
+        android:backgroundTint="#E0E0E0">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center_horizontal">
+
+        <!-- Student Name -->
+        <TextView
+            android:id="@+id/studentName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/student_name_placeholder"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:textColor="#000000"
+            android:gravity="center" />
+
+        <!-- Student ID -->
+        <TextView
+            android:id="@+id/studentID"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/student_id_placeholder"
+            android:textSize="16sp"
+            android:textColor="#000000"
+            android:gravity="center"
+            android:layout_marginTop="2dp" />
+
+        <!-- Occupation -->
+        <TextView
+            android:id="@+id/studentOccupation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/student_occupation_placeholder"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:textColor="@android:color/holo_red_dark"
+            android:gravity="center"
+            android:layout_marginTop="4dp" />
+
+        <!-- Expiration Date -->
+        <TextView
+            android:id="@+id/expirationDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/expiration_date_placeholder"
+            android:textSize="14sp"
+            android:textColor="#000000"
+            android:gravity="center"
+            android:layout_marginTop="8dp" />
+
+        <!-- Issue Date and Code -->
+        <TextView
+            android:id="@+id/issueDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/issue_date_placeholder"
+            android:textSize="14sp"
+            android:textColor="#000000"
+            android:gravity="center"
+            android:layout_marginTop="4dp" />
+    </LinearLayout>
+</androidx.cardview.widget.CardView>
+
+    <!-- WISCard Logo at the Bottom -->
+    <ImageView
+        android:id="@+id/wiscardLogo"
+        android:layout_width="365dp"
+        android:layout_height="138dp"
+        android:src="@drawable/wiscard_logo"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

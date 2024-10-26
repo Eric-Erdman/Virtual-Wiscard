@@ -20,7 +20,7 @@ class LoginActivity : AppCompatActivity() {
         myWebView.settings.javaScriptEnabled = true
 
         //UW login SSO
-        myWebView.loadUrl("https://login.wisc.edu/idp/profile/SAML2/Redirect/SSO")
+        myWebView.loadUrl("https://my.wisc.edu/web/expanded")
 
         //Handle the page redirection and page loading
         myWebView.webViewClient = object : WebViewClient() {
