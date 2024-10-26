@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">Virtaul Wiscard</string>
+
+    //Change these values when we implement database
+    <string name="student_name_placeholder">BUCKY BADGER</string>
+    <string name="student_id_placeholder">012 345 6789</string>
+    <string name="student_occupation_placeholder">STUDENT</string>
+    <string name="expiration_date_placeholder">EXPIRES: 6/26/2077</string>
+    <string name="issue_date_placeholder">ISSUED: 6/26/1848 ISSUE CODE 1</string>
+
 </resources>
