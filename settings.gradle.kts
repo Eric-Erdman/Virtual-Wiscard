@@ -19,5 +19,5 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "Virtaul Wiscard"
-include(":app")
+rootProject.name = "Virtual Wiscard"
+include(":app", ":boommenu")

@@ -1,12 +1,14 @@
-package com.cs407.virtaulwiscard
+package com.cs407.virtualwiscard
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import android.webkit.WebResourceRequest
 import android.webkit.WebView
 import android.webkit.WebViewClient
+import com.cs407.virtualwiscard.R
 
 class LoginActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -31,8 +33,10 @@ class LoginActivity : AppCompatActivity() {
             override fun onPageFinished(view: WebView?, url: String?) {
                 super.onPageFinished(view, url)
                 //Check if success
-                if (url?.contains("success_page_indicator") == true) {
+                Log.d("LoginActivity", "URL: $url")
+                if (url != null && url == "https://my.wisc.edu/web/expanded") {
                     //If Success move to main page
+                    Log.d("LoginActivity", "moving to main page...")
                     val intent = Intent(this@LoginActivity, MainActivity::class.java)
                     startActivity(intent)
                     finish() //Close so cant return
