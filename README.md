@@ -40,14 +40,6 @@ Many students often forget to bring their physical Wiscards, which restricts acc
 
 ---
 
-## Wireframe
-
-![Wireframe](https://www.figma.com/proto/8n6X1RA58DnQgNCy06OolT/Untitled?node-id=4-2&t=Zg5lG3EA9QZZ6pAV-1&starting-point-node-id=4%3A2)
-
-- View the full Figma prototype above, which includes screens for login, home, NFC scanning, balance checking, and settings.
-
----
-
 ## Project Structure
 
 ### Key Modules
