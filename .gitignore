@@ -1,15 +1,59 @@
-*.iml
-.gradle
-/local.properties
-/.idea/caches
-/.idea/libraries
-/.idea/modules.xml
-/.idea/workspace.xml
-/.idea/navEditor.xml
-/.idea/assetWizardSettings.xml
-.DS_Store
-/build
-/captures
-.externalNativeBuild
-.cxx
+# Android Studio specific files
+.idea/
+.gradle/
 local.properties
+*.iml
+
+# Gradle files
+/build/
+/app/build/
+/out/
+.gradle/
+/buildSrc/build/
+
+# Log and cache files
+*.log
+*.xml
+*.json
+*.lock
+*.bak
+*.orig
+*.gz
+**/gradle-app.cache
+**/gradle-apt.cache
+
+# Compiled Java class files
+*.class
+
+# Generated files
+bin/
+gen/
+captures/
+build/
+output/
+app/release/
+app/debug/
+
+# IntelliJ IDEA files
+*.iws
+*.ipr
+*.iml
+.idea/
+
+# Keystore files
+*.keystore
+*.jks
+
+# Android/Ddms config
+.idea/.name
+.idea/caches/
+.idea/libraries/
+.idea/modules.xml
+.idea/workspace.xml
+.idea/navEditor.xml
+.idea/assetWizardSettings.xml
+.idea/misc.xml
+.idea/compiler.xml
+
+# Virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
+hs_err_pid*
