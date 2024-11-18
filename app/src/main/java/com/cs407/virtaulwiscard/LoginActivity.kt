@@ -8,7 +8,6 @@ import androidx.appcompat.app.AppCompatActivity
 import android.webkit.WebResourceRequest
 import android.webkit.WebView
 import android.webkit.WebViewClient
-import com.cs407.virtualwiscard.R
 
 class LoginActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

@@ -175,6 +175,25 @@
     </LinearLayout>
 </androidx.cardview.widget.CardView>
 
+    <!-- Error message for unsupported NFC -->
+    <TextView
+        android:id="@+id/nfcErrorMessage"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:text="@string/nfc_not_supported_message"
+        android:textSize="16sp"
+        android:textColor="@android:color/holo_red_dark"
+        android:gravity="center"
+        android:padding="8dp"
+        android:background="@android:color/white"
+        android:elevation="2dp"
+        app:layout_constraintBottom_toTopOf="@id/wiscardLogo"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/infoBox" />
+
+
     <!-- WISCard Logo at the Bottom -->
     <ImageView
         android:id="@+id/wiscardLogo"

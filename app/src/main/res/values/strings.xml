@@ -9,5 +9,7 @@
     <string name="student_occupation_placeholder">STUDENT</string>
     <string name="expiration_date_placeholder">EXPIRES: 6/26/2077</string>
     <string name="issue_date_placeholder">ISSUED: 6/26/1848 ISSUE CODE 1</string>
+    <string name="nfc_not_supported_message">NFC is not supported on this device. Some features may not work.</string>
+
 
 </resources>
