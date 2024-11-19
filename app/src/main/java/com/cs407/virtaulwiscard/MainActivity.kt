@@ -17,10 +17,13 @@ import android.nfc.NfcAdapter
 import android.nfc.Tag
 import android.nfc.tech.Ndef
 import android.os.Build
+import android.util.Log
 import android.view.View
 import android.widget.TextView
 import androidx.annotation.RequiresApi
 import com.google.firebase.firestore.FirebaseFirestore
+
+
 
 
 class MainActivity : AppCompatActivity() {
@@ -34,14 +37,27 @@ class MainActivity : AppCompatActivity() {
         enableEdgeToEdge()
 
         setContentView(R.layout.activity_main)
-        // Test the function to fetch NFC ID
-        fetchNfcIdByUsername("1111111111") { nfcId ->
-            if (nfcId != null) {
-                println("Fetched NFC ID: $nfcId")
+
+        val clientId = "input key here"
+        val clientSecret = "input secret here"
+
+        // Step 1: Get Access Token
+        OAuthService.getAccessToken(clientId, clientSecret) { accessToken ->
+            if (accessToken != null) {
+                // Step 2: Use Access Token to Call Mock Person API
+                val mockPersonApiUrl = "https://mock.api.wisc.edu/people"
+                ApiService.fetchPeople(mockPersonApiUrl, accessToken) { people ->
+                    runOnUiThread {
+                        people.forEach { person ->
+                            Log.d("MainActivity", "Person: $person")
+                        }
+                    }
+                }
             } else {
-                println("NFC ID not found for the specified user.")
+                Log.e("MainActivity", "Failed to fetch access token")
             }
         }
+
 
 
         val bmb = findViewById<BoomMenuButton>(R.id.bmb)
@@ -82,25 +98,7 @@ class MainActivity : AppCompatActivity() {
             intentFilters = arrayOf(IntentFilter(NfcAdapter.ACTION_TAG_DISCOVERED))
         }
     }
-    //  Function to fetch NFC ID from Firestore using username
-    private fun fetchNfcIdByUsername(userId: String, onResult: (String?) -> Unit) {
-        val db = FirebaseFirestore.getInstance()
 
-        db.collection("Users").document(userId).get()
-            .addOnSuccessListener { document ->
-                if (document.exists()) {
-                    val nfcId = document.getLong("NFCid")?.toString() // Safely handle number conversion
-
-                    onResult(nfcId)
-                } else {
-                    onResult(null)
-                }
-            }
-            .addOnFailureListener { exception ->
-                println("Error fetching NFC ID: ${exception.message}")
-                onResult(null)
-            }
-    }
 
     override fun onResume() {
         super.onResume()
