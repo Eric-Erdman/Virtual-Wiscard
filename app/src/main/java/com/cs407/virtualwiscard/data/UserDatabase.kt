@@ -1,4 +1,4 @@
-package com.cs407.virtaulwiscard.data
+package com.cs407.virtualwiscard.data
 
 import android.content.Context
 import androidx.room.Dao
