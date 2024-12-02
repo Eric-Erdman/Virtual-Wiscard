@@ -46,13 +46,19 @@ class MainActivity : AppCompatActivity() {
         for (i in 0 until bmb.piecePlaceEnum.pieceNumber()) {
             val builder = HamButton.Builder()
                 .normalImageRes(R.drawable.uw_logo)
-                .normalText(if (i == 0) "Logout" else "Item ${i + 1}") // Set custom text for the logout button
+                .normalText(if (i == 0) "Wiscard Balance" else if (i == 1) "Item 2" else "Logout") // Set custom text for the logout button
+                .normalColor(Color.RED)
                 .listener { index ->
-                    if (index == 0) { // Define behavior for the logout button
+                    if (index == 0) {
+                        val intent = Intent(this@MainActivity, BalanceActivity::class.java)
+                        startActivity(intent)
+                    }
+                    if (index == 1){
+                        //Add item 2
+                    }
+                    if (index == 2) { // Define behavior for the logout button
                         val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://login.wisc.edu/idp/profile/Logout?execution=e2s2"))
                         startActivity(intent)
-                    } else {
-                        Toast.makeText(this, "Clicked item $index", Toast.LENGTH_SHORT).show()
                     }
                 }
 

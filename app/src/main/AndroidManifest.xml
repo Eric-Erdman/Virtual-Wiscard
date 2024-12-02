@@ -33,6 +33,10 @@
             android:name=".MainActivity"
             android:exported="true" />
 
+        <!-- BalancePage -->
+        <activity android:name=".BalanceActivity"
+            android:exported="true"/>
+
     </application>
 
 </manifest>

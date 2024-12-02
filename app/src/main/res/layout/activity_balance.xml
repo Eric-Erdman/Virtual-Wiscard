@@ -5,6 +5,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     tools:context=".MainActivity">
 
     <!-- Red Top Banner -->
@@ -62,7 +63,7 @@
     <ImageView
         android:id="@+id/universityBanner"
         android:layout_width="0dp"
-        android:layout_height="200dp"
+        android:layout_height="170dp"
         android:src="@drawable/madison_banner"
         android:scaleType="centerCrop"
         app:layout_constraintTop_toBottomOf="@id/topBanner"
@@ -90,6 +91,15 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
+    <!-- WebView for Balance Section -->
+    <WebView
+        android:id="@+id/webview_balance"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/universityBanner"
+        app:layout_constraintBottom_toTopOf="@id/wiscardLogo" />
 
     <!-- WISCard Logo at the Bottom -->
     <ImageView

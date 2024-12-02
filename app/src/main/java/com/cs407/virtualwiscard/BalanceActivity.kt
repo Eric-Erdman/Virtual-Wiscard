@@ -1,7 +1,12 @@
 package com.cs407.virtualwiscard
 
+import android.content.Intent
 import android.graphics.Color
+import android.net.Uri
 import android.os.Bundle
+import android.webkit.WebSettings
+import android.webkit.WebView
+import android.webkit.WebViewClient
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import android.widget.Toast
@@ -19,6 +24,50 @@ class BalanceActivity : AppCompatActivity() {
 
         setContentView(R.layout.activity_balance)
 
+        val webView: WebView = findViewById(R.id.webview_balance)
+        webView.settings.apply {
+            javaScriptEnabled = true // Enable JavaScript
+            cacheMode = WebSettings.LOAD_CACHE_ELSE_NETWORK // Cache settings
+            loadWithOverviewMode = true // Load page to fit WebView screen
+            useWideViewPort = true // Enable viewport for responsive design
+            builtInZoomControls = true // Allow zooming
+            displayZoomControls = false // Disable zoom controls overlay
+        }
+
+        webView.webViewClient = object : WebViewClient() {
+            override fun shouldOverrideUrlLoading(view: WebView?, url: String?): Boolean {
+                return false
+            }
+
+            override fun onPageFinished(view: WebView?, url: String?) {
+                super.onPageFinished(view, url)
+
+                // Use JavaScript to scroll to the desired section
+                webView.evaluateJavascript(
+                    """
+                    (function() {
+                        //get balance table
+                        var table = document.getElementById('Wiscard Account');
+                        
+                        if (table) {
+                            document.body.innerHTML = '';
+                            //add only table
+                            document.body.appendChild(table);
+                    
+                            //all white background
+                            var rows = table.getElementsByTagName('tr');
+                            for (var i = 0; i < rows.length; i++) {
+                                rows[i].style.backgroundColor = 'white'; // Set background to white
+                            }
+                        }
+                    })();
+                    """.trimIndent(),
+                    null
+                )
+            }
+        }
+        webView.loadUrl("https://online.wiscard.wisc.edu/login.php?cid=120")
+
         val bmb = findViewById<BoomMenuButton>(R.id.bmb)
 
         bmb.setButtonEnum(ButtonEnum.Ham)
@@ -30,10 +79,20 @@ class BalanceActivity : AppCompatActivity() {
         for (i in 0 until bmb.piecePlaceEnum.pieceNumber()) {
             val builder = HamButton.Builder()
                 .normalImageRes(R.drawable.uw_logo)
-                .normalText("Item ${i + 1}")
+                .normalText(if (i == 0) "Homepage" else if (i == 1) "Item 2" else "Logout")
                 .normalColor(Color.RED)
                 .listener { index ->
-                    Toast.makeText(this, "Clicked item $index", Toast.LENGTH_SHORT).show()
+                    if (index == 0) {
+                        val intent = Intent(this@BalanceActivity, MainActivity::class.java)
+                        startActivity(intent)
+                    }
+                    if (index == 1){
+                        //Add item 2
+                    }
+                    if (index == 2) { // Define behavior for the logout button
+                        val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://login.wisc.edu/idp/profile/Logout?execution=e2s2"))
+                        startActivity(intent)
+                    }
                 }
 
             bmb.addBuilder(builder)
