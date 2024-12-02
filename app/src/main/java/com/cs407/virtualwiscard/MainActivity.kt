@@ -57,7 +57,7 @@ class MainActivity : AppCompatActivity() {
                         //Add item 2
                     }
                     if (index == 2) { // Define behavior for the logout button
-                        val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://login.wisc.edu/idp/profile/Logout?execution=e2s2"))
+                        val intent = Intent(this@MainActivity, LogoutActivity::class.java)
                         startActivity(intent)
                     }
                 }
