@@ -13,11 +13,13 @@ import com.nightonke.boommenu.Piece.PiecePlaceEnum
 import android.app.PendingIntent
 import android.content.Intent
 import android.content.IntentFilter
+import android.net.Uri
 import android.nfc.NfcAdapter
 import android.nfc.Tag
 import android.nfc.tech.Ndef
 import android.os.Build
 import android.view.View
+import android.webkit.WebView
 import android.widget.TextView
 import androidx.annotation.RequiresApi
 
@@ -44,10 +46,14 @@ class MainActivity : AppCompatActivity() {
         for (i in 0 until bmb.piecePlaceEnum.pieceNumber()) {
             val builder = HamButton.Builder()
                 .normalImageRes(R.drawable.uw_logo)
-                .normalText("Item ${i + 1}")
-                .normalColor(Color.RED)
+                .normalText(if (i == 0) "Logout" else "Item ${i + 1}") // Set custom text for the logout button
                 .listener { index ->
-                    Toast.makeText(this, "Clicked item $index", Toast.LENGTH_SHORT).show()
+                    if (index == 0) { // Define behavior for the logout button
+                        val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://login.wisc.edu/idp/profile/Logout?execution=e2s2"))
+                        startActivity(intent)
+                    } else {
+                        Toast.makeText(this, "Clicked item $index", Toast.LENGTH_SHORT).show()
+                    }
                 }
 
             bmb.addBuilder(builder)

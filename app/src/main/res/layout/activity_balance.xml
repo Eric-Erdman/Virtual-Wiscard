@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <!-- Red Top Banner -->
+    <RelativeLayout
+        android:id="@+id/topBanner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#B71C1C"
+        android:paddingTop="16dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <!-- UW-Madison Logo on the Left -->
+        <ImageView
+            android:id="@+id/uwLogo"
+            android:layout_width="56dp"
+            android:layout_height="52dp"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="0dp"
+            android:layout_marginLeft="4dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginEnd="4dp"
+            android:layout_marginRight="4dp"
+            android:layout_marginBottom="4dp"
+            android:src="@drawable/uw_logo" />
+
+        <!-- Title Text in the Center -->
+        <TextView
+            android:id="@+id/bannerTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/balance_banner"
+            android:textColor="#FFFFFF"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:fontFamily="serif"
+            android:layout_centerInParent="true" />
+
+        <com.nightonke.boommenu.BoomMenuButton
+            android:id="@+id/bmb"
+            app:bmb_buttonEnum="ham"
+            app:bmb_piecePlaceEnum="piecePlace_ham_3"
+            app:bmb_buttonPlaceEnum="buttonPlace_ham_3"
+            app:bmb_normalColor="@android:color/white"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_alignParentEnd="true" />
+
+    </RelativeLayout>
+
+    <!-- University Banner Image -->
+    <ImageView
+        android:id="@+id/universityBanner"
+        android:layout_width="0dp"
+        android:layout_height="200dp"
+        android:src="@drawable/madison_banner"
+        android:scaleType="centerCrop"
+        app:layout_constraintTop_toBottomOf="@id/topBanner"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+
+
+    <!-- Gray Background Box for Student Information with Rounded Corners -->
+
+    <!-- Error message for unsupported NFC -->
+    <TextView
+        android:id="@+id/nfcErrorMessage"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@android:color/white"
+        android:elevation="2dp"
+        android:gravity="center"
+        android:padding="8dp"
+        android:text="@string/nfc_not_supported_message"
+        android:textColor="@android:color/holo_red_dark"
+        android:textSize="16sp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toTopOf="@id/wiscardLogo"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+
+    <!-- WISCard Logo at the Bottom -->
+    <ImageView
+        android:id="@+id/wiscardLogo"
+        android:layout_width="365dp"
+        android:layout_height="138dp"
+        android:src="@drawable/wiscard_logo"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
