@@ -32,11 +32,12 @@
         <activity
             android:name=".MainActivity"
             android:exported="true" />
-
-        <!-- BalancePage -->
-        <activity android:name=".BalanceActivity"
-            android:exported="true"/>
-
+        <activity
+            android:name=".BalanceActivity"
+            android:exported="true" />
+        <activity
+            android:name=".LogoutActivity"
+            android:exported="true" />
     </application>
 
 </manifest>
