@@ -2,6 +2,7 @@ package com.cs407.virtualwiscard
 
 import android.content.Intent
 import android.graphics.Color
+import android.graphics.Rect
 import android.net.Uri
 import android.os.Bundle
 import android.webkit.WebSettings
@@ -71,26 +72,25 @@ class BalanceActivity : AppCompatActivity() {
         val bmb = findViewById<BoomMenuButton>(R.id.bmb)
 
         bmb.setButtonEnum(ButtonEnum.Ham)
-        bmb.setPiecePlaceEnum(PiecePlaceEnum.HAM_3)
-        bmb.setButtonPlaceEnum(ButtonPlaceEnum.HAM_3)
+        bmb.setPiecePlaceEnum(PiecePlaceEnum.HAM_2)
+        bmb.setButtonPlaceEnum(ButtonPlaceEnum.HAM_2)
 
         bmb.clearBuilders()
 
         for (i in 0 until bmb.piecePlaceEnum.pieceNumber()) {
             val builder = HamButton.Builder()
                 .normalImageRes(R.drawable.uw_logo)
-                .normalText(if (i == 0) "Homepage" else if (i == 1) "Item 2" else "Logout")
+                .normalText(if (i == 0) "Homepage" else "Logout")
+                .textSize(23)
+                .textPadding(Rect(0,6,0,0))
                 .normalColor(Color.RED)
+                .highlightedColor(Color.WHITE)
                 .listener { index ->
                     if (index == 0) {
                         val intent = Intent(this@BalanceActivity, MainActivity::class.java)
                         startActivity(intent)
-                    }
-                    if (index == 1){
-                        //Add item 2
-                    }
-                    if (index == 2) { // Define behavior for the logout button
-                        val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://login.wisc.edu/idp/profile/Logout?execution=e2s2"))
+                    } else { // Define behavior for the logout button
+                        val intent = Intent(this@BalanceActivity, LogoutActivity::class.java)
                         startActivity(intent)
                     }
                 }

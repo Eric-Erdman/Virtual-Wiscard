@@ -13,6 +13,7 @@ import com.nightonke.boommenu.Piece.PiecePlaceEnum
 import android.app.PendingIntent
 import android.content.Intent
 import android.content.IntentFilter
+import android.graphics.Rect
 import android.net.Uri
 import android.nfc.NfcAdapter
 import android.nfc.Tag
@@ -38,25 +39,24 @@ class MainActivity : AppCompatActivity() {
         val bmb = findViewById<BoomMenuButton>(R.id.bmb)
 
         bmb.setButtonEnum(ButtonEnum.Ham)
-        bmb.setPiecePlaceEnum(PiecePlaceEnum.HAM_3)
-        bmb.setButtonPlaceEnum(ButtonPlaceEnum.HAM_3)
+        bmb.setPiecePlaceEnum(PiecePlaceEnum.HAM_2)
+        bmb.setButtonPlaceEnum(ButtonPlaceEnum.HAM_2)
 
         bmb.clearBuilders()
 
         for (i in 0 until bmb.piecePlaceEnum.pieceNumber()) {
             val builder = HamButton.Builder()
                 .normalImageRes(R.drawable.uw_logo)
-                .normalText(if (i == 0) "Wiscard Balance" else if (i == 1) "Item 2" else "Logout") // Set custom text for the logout button
+                .normalText(if (i == 0) "Wiscard Balance" else "Logout") // Set custom text for the logout button
+                .textSize(23)
+                .textPadding(Rect(0,6,0,0))
                 .normalColor(Color.RED)
+                .highlightedColor(Color.WHITE)
                 .listener { index ->
                     if (index == 0) {
                         val intent = Intent(this@MainActivity, BalanceActivity::class.java)
                         startActivity(intent)
-                    }
-                    if (index == 1){
-                        //Add item 2
-                    }
-                    if (index == 2) { // Define behavior for the logout button
+                    } else { // Define behavior for the logout button
                         val intent = Intent(this@MainActivity, LogoutActivity::class.java)
                         startActivity(intent)
                     }
