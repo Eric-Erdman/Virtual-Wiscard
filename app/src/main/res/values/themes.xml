@@ -1,9 +1,9 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Base.Theme.VirtaulWiscard" parent="Theme.Material3.DayNight.NoActionBar">
+    <style name="Base.Theme.VirtualWiscard" parent="Theme.Material3.Light.NoActionBar">
         <!-- Customize your light theme here. -->
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
     </style>
 
-    <style name="Theme.VirtaulWiscard" parent="Base.Theme.VirtaulWiscard" />
+    <style name="Theme.VirtualWiscard" parent="Base.Theme.VirtualWiscard" />
 </resources>
