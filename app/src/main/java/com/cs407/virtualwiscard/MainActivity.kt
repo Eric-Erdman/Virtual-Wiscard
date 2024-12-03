@@ -15,6 +15,8 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.graphics.Rect
 import android.net.Uri
+import android.nfc.NdefMessage
+import android.nfc.NdefRecord
 import android.nfc.NfcAdapter
 import android.nfc.Tag
 import android.nfc.tech.Ndef
@@ -127,4 +129,5 @@ class MainActivity : AppCompatActivity() {
         //to unlock necessary door based on access levels etc and send message
         println("Door unlocked")
     }
+
 }
