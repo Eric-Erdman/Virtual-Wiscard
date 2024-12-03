@@ -13,12 +13,15 @@ import com.nightonke.boommenu.Piece.PiecePlaceEnum
 import android.app.PendingIntent
 import android.content.Intent
 import android.content.IntentFilter
+import android.graphics.Rect
+import android.net.Uri
 import android.nfc.NfcAdapter
 import android.nfc.Tag
 import android.nfc.tech.Ndef
 import android.os.Build
 import android.util.Log
 import android.view.View
+import android.webkit.WebView
 import android.widget.TextView
 import androidx.annotation.RequiresApi
 import com.google.firebase.firestore.FirebaseFirestore
@@ -63,18 +66,27 @@ class MainActivity : AppCompatActivity() {
         val bmb = findViewById<BoomMenuButton>(R.id.bmb)
 
         bmb.setButtonEnum(ButtonEnum.Ham)
-        bmb.setPiecePlaceEnum(PiecePlaceEnum.HAM_3)
-        bmb.setButtonPlaceEnum(ButtonPlaceEnum.HAM_3)
+        bmb.setPiecePlaceEnum(PiecePlaceEnum.HAM_2)
+        bmb.setButtonPlaceEnum(ButtonPlaceEnum.HAM_2)
 
         bmb.clearBuilders()
 
         for (i in 0 until bmb.piecePlaceEnum.pieceNumber()) {
             val builder = HamButton.Builder()
                 .normalImageRes(R.drawable.uw_logo)
-                .normalText("Item ${i + 1}")
+                .normalText(if (i == 0) "Wiscard Balance" else "Logout") // Set custom text for the logout button
+                .textSize(23)
+                .textPadding(Rect(0,6,0,0))
                 .normalColor(Color.RED)
+                .highlightedColor(Color.WHITE)
                 .listener { index ->
-                    Toast.makeText(this, "Clicked item $index", Toast.LENGTH_SHORT).show()
+                    if (index == 0) {
+                        val intent = Intent(this@MainActivity, BalanceActivity::class.java)
+                        startActivity(intent)
+                    } else { // Define behavior for the logout button
+                        val intent = Intent(this@MainActivity, LogoutActivity::class.java)
+                        startActivity(intent)
+                    }
                 }
 
             bmb.addBuilder(builder)
