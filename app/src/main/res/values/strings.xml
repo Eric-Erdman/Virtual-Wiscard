@@ -1,6 +1,10 @@
 <resources>
     <string name="app_name">Virtual Wiscard</string>
-    <string name="balance_banner">Balance and Transactions</string>
+    <string name="balance_banner">Wiscard Balance</string>
+
+    //NFC STUFF POSSIBLY UPDATE
+    <string name="service_description">Virtual Wiscard NFC Service</string>
+    <string name="aid_group">Wiscard AID Group</string>
 
     //Change these values when we implement database
     <string name="student_name_placeholder">BUCKY BADGER</string>

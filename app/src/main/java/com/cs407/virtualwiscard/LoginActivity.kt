@@ -183,8 +183,6 @@ class LoginActivity : AppCompatActivity() {
 
                 Log.d("LoginActivity", "URL: $url")
                 if (url != null && url == "https://my.wisc.edu/web/expanded") {
-                    //If Success move to main page
-                    Log.d("LoginActivity", "moving to main page...")
                     val intent = Intent(this@LoginActivity, MainActivity::class.java)
                     startActivity(intent)
                     finish() //Close so cant return

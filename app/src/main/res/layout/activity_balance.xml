@@ -39,12 +39,12 @@
             android:id="@+id/bannerTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:fontFamily="serif"
             android:text="@string/balance_banner"
             android:textColor="#FFFFFF"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            android:fontFamily="serif"
-            android:layout_centerInParent="true" />
+            android:textSize="24sp"
+            android:textStyle="bold" />
 
         <com.nightonke.boommenu.BoomMenuButton
             android:id="@+id/bmb"
