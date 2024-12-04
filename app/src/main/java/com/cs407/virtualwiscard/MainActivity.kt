@@ -11,6 +11,7 @@ import com.nightonke.boommenu.BoomMenuButton
 import com.nightonke.boommenu.ButtonEnum
 import com.nightonke.boommenu.Piece.PiecePlaceEnum
 import android.app.PendingIntent
+import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.graphics.Rect
@@ -43,6 +44,16 @@ class MainActivity : AppCompatActivity() {
 
         val clientId = "input key here"
         val clientSecret = "input secret here"
+
+        val sharedPref = getSharedPreferences("VirtualWiscardPrefs", MODE_PRIVATE)
+        val username = sharedPref.getString("username", "Guest")
+        val firstName = sharedPref.getString("firstName", "Unknown")
+        val lastName = sharedPref.getString("lastName", "User")
+
+        val sharedPreferences = getSharedPreferences("appPrefs", Context.MODE_PRIVATE)
+        val wiscardNumber = sharedPreferences.getString("wiscardNumber", "Not Available")
+        Log.d("MainActivity", "Retrieved Wiscard Number: $wiscardNumber")
+
 
         // Step 1: Get Access Token
         OAuthService.getAccessToken(clientId, clientSecret) { accessToken ->
@@ -109,7 +120,16 @@ class MainActivity : AppCompatActivity() {
 
             intentFilters = arrayOf(IntentFilter(NfcAdapter.ACTION_TAG_DISCOVERED))
         }
+
+        //set the name and stuff
+        val nameTextView: TextView = findViewById(R.id.studentName)
+        val fullName = firstName + " " + lastName
+        nameTextView.text = fullName
+        val wiscardNumberTextView: TextView = findViewById(R.id.studentID)
+        wiscardNumberTextView.text = wiscardNumber
+
     }
+
 
 
     override fun onResume() {
