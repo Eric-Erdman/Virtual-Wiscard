@@ -34,6 +34,17 @@ class LoginActivity : AppCompatActivity() {
                 //Check if success
                 Log.d("LoginActivity", "URL: $url")
                 if (url != null && url == "https://my.wisc.edu/web/expanded") {
+                    // After verifying user identity in LoginActivity.kt
+
+                    // Assume the user's access has been validated
+                    val hasAccess = true // Set this according to actual validation
+
+                    // Save to SharedPreferences
+                    val sharedPreferences = getSharedPreferences("user_prefs", MODE_PRIVATE)
+                    val editor = sharedPreferences.edit()
+                    editor.putBoolean("has_access", hasAccess)
+                    editor.apply()
+
                     val intent = Intent(this@LoginActivity, MainActivity::class.java)
                     startActivity(intent)
                     finish() //Close so cant return
