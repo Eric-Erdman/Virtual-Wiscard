@@ -1,6 +1,7 @@
 package com.cs407.virtualwiscard
 
 import android.nfc.cardemulation.HostApduService
+import com.google.firebase.firestore.FirebaseFirestore
 import android.os.Bundle
 import android.util.Log
 import android.content.Context
@@ -14,12 +15,14 @@ class MyHostApduService : HostApduService() {
         // Construct the SELECT AID command
         private val SELECT_APDU = buildSelectApdu(AID)
 
+        // Build the SELECT APDU command
         private fun buildSelectApdu(aid: String): ByteArray {
             return hexStringToByteArray(
                 "00A40400" + String.format("%02X", aid.length / 2) + aid
             )
         }
 
+        // Convert a hexadecimal string to a byte array
         private fun hexStringToByteArray(s: String): ByteArray {
             val len = s.length
             val data = ByteArray(len / 2)
@@ -30,6 +33,22 @@ class MyHostApduService : HostApduService() {
                 i += 2
             }
             return data
+        }
+
+        // Update the user's access status in the local cache
+        fun updateUserAccessCache(context: Context, username: String) {
+            val firestore = FirebaseFirestore.getInstance()
+            firestore.collection("users").document(username)
+                .get()
+                .addOnSuccessListener { document ->
+                    val hasAccess = document?.getBoolean("hasAccess") ?: false
+                    Log.d(TAG, "Access fetched for $username: $hasAccess")
+                    val sharedPreferences = context.getSharedPreferences("user_prefs", Context.MODE_PRIVATE)
+                    sharedPreferences.edit().putBoolean("has_access", hasAccess).apply()
+                }
+                .addOnFailureListener { e ->
+                    Log.e(TAG, "Failed to fetch access for $username", e)
+                }
         }
     }
 
@@ -44,8 +63,8 @@ class MyHostApduService : HostApduService() {
         if (commandApdu.contentEquals(SELECT_APDU)) {
             Log.d(TAG, "AID selected")
 
-            // Check user permissions
-            val userHasAccess = checkUserAccess()
+            // Check user permissions from cache
+            val userHasAccess = checkCachedUserAccess()
 
             val responseData = if (userHasAccess) {
                 "PASS" // User has permission
@@ -67,9 +86,11 @@ class MyHostApduService : HostApduService() {
         Log.d(TAG, "Deactivated: $reason")
     }
 
-    // Check if the user has permission
-    private fun checkUserAccess(): Boolean {
+    // Check user permissions from cache
+    private fun checkCachedUserAccess(): Boolean {
         val sharedPreferences = getSharedPreferences("user_prefs", Context.MODE_PRIVATE)
-        return sharedPreferences.getBoolean("has_access", false)
+        val hasAccess = sharedPreferences.getBoolean("has_access", false)
+        Log.d(TAG, "Cached user access: $hasAccess")
+        return hasAccess
     }
 }
