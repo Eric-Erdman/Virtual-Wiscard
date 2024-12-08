@@ -25,6 +25,7 @@ import android.os.Build
 import android.util.Log
 import android.view.View
 import android.webkit.WebView
+import android.widget.Button
 import android.widget.TextView
 import androidx.annotation.RequiresApi
 import com.google.firebase.firestore.FirebaseFirestore
@@ -55,6 +56,22 @@ class MainActivity : AppCompatActivity() {
         val sharedPreferences = getSharedPreferences("appPrefs", Context.MODE_PRIVATE)
         val wiscardNumber = sharedPreferences.getString("wiscardNumber", "Not Available")
         Log.d("MainActivity", "Retrieved Wiscard Number: $wiscardNumber")
+
+        val testButton: Button = findViewById(R.id.testButton)
+        testButton.setOnClickListener {
+            val sharedPreferences = getSharedPreferences("VirtualWiscardPrefs", MODE_PRIVATE)
+            val username = sharedPreferences.getString("username", "hu434") ?: "hu434"
+
+            MyHostApduService.updateUserAccessCache(this, username) { success ->
+                if (success) {
+                    Log.d("MainActivity", "Access cache update succeeded for user: $username")
+                    Toast.makeText(this, "Cache updated successfully for $username", Toast.LENGTH_SHORT).show()
+                } else {
+                    Log.e("MainActivity", "Access cache update failed for user: $username")
+                    Toast.makeText(this, "Failed to update cache for $username", Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
 
 
         // Step 1: Get Access Token

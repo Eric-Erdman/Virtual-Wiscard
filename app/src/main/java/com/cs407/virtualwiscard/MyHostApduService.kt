@@ -36,7 +36,7 @@ class MyHostApduService : HostApduService() {
         }
 
         // Update the user's access status in the local cache
-        fun updateUserAccessCache(context: Context, username: String) {
+        fun updateUserAccessCache(context: Context, username: String, callback: (Boolean) -> Unit) {
             val firestore = FirebaseFirestore.getInstance()
             firestore.collection("users").document(username)
                 .get()
@@ -45,9 +45,11 @@ class MyHostApduService : HostApduService() {
                     Log.d(TAG, "Access fetched for $username: $hasAccess")
                     val sharedPreferences = context.getSharedPreferences("user_prefs", Context.MODE_PRIVATE)
                     sharedPreferences.edit().putBoolean("has_access", hasAccess).apply()
+                    callback(true) // Notify success
                 }
                 .addOnFailureListener { e ->
                     Log.e(TAG, "Failed to fetch access for $username", e)
+                    callback(false) // Notify failure
                 }
         }
     }
