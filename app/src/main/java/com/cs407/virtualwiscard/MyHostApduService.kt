@@ -69,8 +69,10 @@ class MyHostApduService : HostApduService() {
             val userHasAccess = checkCachedUserAccess()
 
             val responseData = if (userHasAccess) {
+                Log.d(TAG, "Permission granted: PASS")
                 "PASS" // User has permission
             } else {
+                Log.d(TAG, "Permission denied: FAIL")
                 "FAIL" // User does not have permission
             }
 
@@ -83,6 +85,7 @@ class MyHostApduService : HostApduService() {
             return byteArrayOf(0x6F.toByte(), 0x00.toByte())
         }
     }
+
 
     override fun onDeactivated(reason: Int) {
         Log.d(TAG, "Deactivated: $reason")
