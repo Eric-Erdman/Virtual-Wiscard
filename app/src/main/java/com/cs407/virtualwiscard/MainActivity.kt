@@ -56,6 +56,8 @@ class MainActivity : AppCompatActivity() {
         val wiscardNumber = sharedPreferences.getString("wiscardNumber", "Not Available")
         Log.d("MainActivity", "Retrieved Wiscard Number: $wiscardNumber")
 
+        sharedPreferences.edit().putString("wiscardNumberForNFC", wiscardNumber).apply()
+
         // Step 1: Get Access Token
         OAuthService.getAccessToken(clientId, clientSecret) { accessToken ->
             if (accessToken != null) {
