@@ -5,20 +5,25 @@ import android.os.Bundle
 import android.util.Log
 
 class MyHostApduService : HostApduService() {
+    companion object {
+        private const val SELECT_APDU_HEADER = "00A40400" // APDU command for SELECT
+        private const val RESPONSE_OK = "9000" // Success response
+        private const val RESPONSE_ERROR = "6F00" // Error response
+    }
+
     override fun processCommandApdu(apdu: ByteArray, extras: Bundle): ByteArray {
-        Log.d("HCE", "Received APDU: " + bytesToHex(apdu))
+        Log.d("HCE", "Received APDU: ${bytesToHex(apdu)}")
         val apduHex = bytesToHex(apdu)
 
-        if (apduHex.startsWith(SELECT_APDU_HEADER)) {
-            // Handle the SELECT command
-            val message = "Hello NFC!"
-            val responseBytes = message.toByteArray()
-            Log.d("HCE", "APDU response: " + bytesToHex(responseBytes))
-            return buildResponse(message.toByteArray())
+        return when {
+            apduHex.startsWith(SELECT_APDU_HEADER) -> {
+                val message = "Hello NFC!"
+                val responseBytes = message.toByteArray()
+                Log.d("HCE", "APDU response: ${bytesToHex(responseBytes)}")
+                buildResponse(responseBytes)
+            }
+            else -> hexStringToByteArray(RESPONSE_ERROR)
         }
-
-        // Return error if command is not recognized
-        return hexStringToByteArray(RESPONSE_ERROR)
     }
 
     override fun onDeactivated(reason: Int) {
@@ -35,37 +40,17 @@ class MyHostApduService : HostApduService() {
     }
 
     private fun concatenateArrays(array1: ByteArray, array2: ByteArray): ByteArray {
-        val result = ByteArray(array1.size + array2.size)
-        System.arraycopy(array1, 0, result, 0, array1.size)
-        System.arraycopy(array2, 0, result, array1.size, array2.size)
-        return result
+        return array1 + array2 // Kotlin's concise array concatenation
     }
 
     private fun bytesToHex(bytes: ByteArray): String {
-        val result = StringBuilder()
-        for (b in bytes) {
-            result.append(String.format("%02X", b))
-        }
-        return result.toString()
+        return bytes.joinToString("") { "%02X".format(it) }
     }
 
     private fun hexStringToByteArray(s: String): ByteArray {
-        val len = s.length
-        val data = ByteArray(len / 2)
-        var i = 0
-        while (i < len) {
-            data[i / 2] = ((s[i].digitToIntOrNull(16) ?: -1 shl 4)
-            + s[i + 1].digitToIntOrNull(16)!! ?: -1).toByte()
-            i += 2
+        require(s.length % 2 == 0) { "Hex string must have an even length." }
+        return ByteArray(s.length / 2) {
+            s.substring(it * 2, it * 2 + 2).toInt(16).toByte()
         }
-        return data
-    }
-
-    companion object {
-        private const val SELECT_APDU_HEADER = "00A40400" // APDU command for SELECT
-        private const val RESPONSE_OK = "9000" // Success response
-        private const val RESPONSE_ERROR = "6F00" // Error response
-
-        private const val KEEP_ALIVE_APDU = "00" // Empty APDU for keeping connection alive
     }
 }

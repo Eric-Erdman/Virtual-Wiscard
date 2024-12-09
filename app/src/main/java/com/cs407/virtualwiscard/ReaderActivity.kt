@@ -5,6 +5,7 @@ import android.nfc.Tag
 import android.nfc.tech.IsoDep
 import android.os.Bundle
 import android.util.Log
+import android.widget.Button
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -23,14 +24,20 @@ class ReaderActivity : AppCompatActivity() {
         val recyclerView = findViewById<RecyclerView>(R.id.recyclerView)
         logList = ArrayList()
         logAdapter = LogAdapter(logList)
-        recyclerView.setLayoutManager(LinearLayoutManager(this))
-        recyclerView.setAdapter(logAdapter)
+        recyclerView.layoutManager = LinearLayoutManager(this)
+        recyclerView.adapter = logAdapter
 
         nfcAdapter = NfcAdapter.getDefaultAdapter(this)
         if (nfcAdapter == null) {
             Toast.makeText(this, "NFC is not supported on this device.", Toast.LENGTH_SHORT).show()
             finish()
             return
+        }
+
+        // Back button logic
+        val backButton = findViewById<Button>(R.id.back_button)
+        backButton.setOnClickListener {
+            onBackPressed() // Navigates to the previous screen
         }
 
         enableReaderMode()
@@ -61,8 +68,8 @@ class ReaderActivity : AppCompatActivity() {
 
                 // Update the RecyclerView with the string representation
                 runOnUiThread {
-                    logList!!.add(responseStr)
-                    logAdapter!!.notifyItemInserted(logList!!.size - 1)
+                    logList.add(responseStr)
+                    logAdapter!!.notifyItemInserted(logList.size - 1)
                 }
             } catch (e: IOException) {
                 Log.e(TAG, "Error communicating with NFC tag", e)

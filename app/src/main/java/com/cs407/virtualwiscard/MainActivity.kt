@@ -122,7 +122,7 @@ class MainActivity : AppCompatActivity() {
 
         //set the name and stuff
         val nameTextView: TextView = findViewById(R.id.studentName)
-        val fullName = firstName + " " + lastName
+        val fullName = "$firstName $lastName"
         nameTextView.text = fullName
         val wiscardNumberTextView: TextView = findViewById(R.id.studentID)
         wiscardNumberTextView.text = wiscardNumber
@@ -157,20 +157,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun handleNfcTag(tag: Tag) {
 
-        //This is where we will take the received tag and
-        //Appropriately attempt to unlock the door given which building it is
-
-        //simulate unlocking door
-        unlockDoor()
-
         //confirm
         Toast.makeText(this, "Door unlocked successfully!", Toast.LENGTH_SHORT).show()
     }
-
-    private fun unlockDoor() {
-        //logic we will add to communicate with server and send correct frequency based on needs
-        //to unlock necessary door based on access levels etc and send message
-        println("Door unlocked")
-    }
-
 }
