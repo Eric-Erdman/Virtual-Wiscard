@@ -144,8 +144,6 @@ class LoginActivity : AppCompatActivity() {
                 })
             }
 
-
-
             fun saveUserDetailsToPreferences(username: String, firstName: String, lastName: String) {
                 val sharedPref = getSharedPreferences("VirtualWiscardPrefs", MODE_PRIVATE)
                 val editor = sharedPref.edit()
@@ -156,16 +154,6 @@ class LoginActivity : AppCompatActivity() {
 
                 Log.d("LoginActivity", "User details saved: $username, $firstName, $lastName")
             }
-
-
-
-
-
-
-
-
-
-
 
             override fun onPageFinished(view: WebView?, url: String?) {
                 super.onPageFinished(view, url)

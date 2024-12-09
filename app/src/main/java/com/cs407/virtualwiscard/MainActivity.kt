@@ -15,22 +15,14 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.graphics.Rect
-import android.net.Uri
-import android.nfc.NdefMessage
-import android.nfc.NdefRecord
 import android.nfc.NfcAdapter
 import android.nfc.Tag
-import android.nfc.tech.Ndef
 import android.os.Build
 import android.util.Log
 import android.view.View
-import android.webkit.WebView
 import android.widget.TextView
 import androidx.annotation.RequiresApi
-import com.google.firebase.firestore.FirebaseFirestore
-
-
-
+import android.widget.ImageView
 
 class MainActivity : AppCompatActivity() {
 
@@ -44,6 +36,14 @@ class MainActivity : AppCompatActivity() {
 
         setContentView(R.layout.activity_main)
 
+        val universityBanner: ImageView = findViewById(R.id.universityBanner)
+        universityBanner.setOnLongClickListener {
+            //go to nfc reader page
+            val intent = Intent(this, NFCReadingActivity::class.java)
+            startActivity(intent)
+            true
+        }
+
         val clientId = "input key here"
         val clientSecret = "input secret here"
 
@@ -55,7 +55,6 @@ class MainActivity : AppCompatActivity() {
         val sharedPreferences = getSharedPreferences("appPrefs", Context.MODE_PRIVATE)
         val wiscardNumber = sharedPreferences.getString("wiscardNumber", "Not Available")
         Log.d("MainActivity", "Retrieved Wiscard Number: $wiscardNumber")
-
 
         // Step 1: Get Access Token
         OAuthService.getAccessToken(clientId, clientSecret) { accessToken ->
@@ -73,8 +72,6 @@ class MainActivity : AppCompatActivity() {
                 Log.e("MainActivity", "Failed to fetch access token")
             }
         }
-
-
 
         val bmb = findViewById<BoomMenuButton>(R.id.bmb)
 
@@ -131,8 +128,6 @@ class MainActivity : AppCompatActivity() {
         wiscardNumberTextView.text = wiscardNumber
 
     }
-
-
 
     override fun onResume() {
         super.onResume()
