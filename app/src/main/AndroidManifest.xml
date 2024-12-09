@@ -53,6 +53,12 @@
         <activity
             android:name=".LogoutActivity"
             android:exported="true" />
+
+        <!-- NFCReadingActivity -->
+        <activity
+            android:name=".NFCReadingActivity"
+            android:exported="true"
+            android:parentActivityName=".MainActivity" />
     </application>
 
 </manifest>

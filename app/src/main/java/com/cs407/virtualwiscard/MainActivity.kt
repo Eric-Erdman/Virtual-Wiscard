@@ -26,6 +26,7 @@ import android.util.Log
 import android.view.View
 import android.webkit.WebView
 import android.widget.Button
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.annotation.RequiresApi
 import com.google.firebase.firestore.FirebaseFirestore
@@ -44,6 +45,16 @@ class MainActivity : AppCompatActivity() {
         enableEdgeToEdge()
 
         setContentView(R.layout.activity_main)
+
+        //get background image
+        val universityBanner: ImageView = findViewById(R.id.universityBanner)
+
+        universityBanner.setOnLongClickListener {
+            //go to nfc reader page
+            val intent = Intent(this, NFCReadingActivity::class.java)
+            startActivity(intent)
+            true
+        }
 
         val clientId = "input key here"
         val clientSecret = "input secret here"
