@@ -1,5 +1,7 @@
 package com.cs407.virtualwiscard
 
+import android.content.ContentValues.TAG
+import android.content.Context
 import android.nfc.cardemulation.HostApduService
 import android.os.Bundle
 import android.util.Log
@@ -17,9 +19,12 @@ class MyHostApduService : HostApduService() {
 
         return when {
             apduHex.startsWith(SELECT_APDU_HEADER) -> {
-                val message = "Hello NFC!"
-                val responseBytes = message.toByteArray()
-                Log.d("HCE", "APDU response: ${bytesToHex(responseBytes)}")
+
+                val sharedPreferences = getSharedPreferences("appPrefs", Context.MODE_PRIVATE)
+                val wiscardNumber = sharedPreferences.getString("wiscardNumberForNFC", "Unknown Wiscard Number")
+
+                val responseBytes = wiscardNumber!!.toByteArray(Charsets.UTF_8)
+                Log.d(TAG, "Sending Wiscard Number: $wiscardNumber")
                 buildResponse(responseBytes)
             }
             else -> hexStringToByteArray(RESPONSE_ERROR)
