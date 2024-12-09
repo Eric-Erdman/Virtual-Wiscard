@@ -13,6 +13,8 @@ import android.util.Log
 import android.webkit.CookieManager
 import okhttp3.*
 import org.json.JSONException
+import com.google.firebase.firestore.FirebaseFirestore
+
 
 import org.json.JSONObject
 import java.io.IOException
@@ -20,10 +22,13 @@ import java.io.IOException
 
 
 class LoginActivity : AppCompatActivity() {
+    private lateinit var firestore: FirebaseFirestore
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_login)
+        firestore = FirebaseFirestore.getInstance()
         val sharedPreferences = getSharedPreferences("MyPreferences", MODE_PRIVATE)
 
 
@@ -82,6 +87,8 @@ class LoginActivity : AppCompatActivity() {
 
                                 // Save all details to SharedPreferences
                                 saveUserDetailsToPreferences(userName, firstName, lastName)
+                                // Save user details to Firestore
+                                saveUserToFirestore(userName, firstName, lastName)
 
                             } catch (e: Exception) {
                                 Log.e("LoginActivity", "Error parsing JSON: ${e.message}")
@@ -183,11 +190,45 @@ class LoginActivity : AppCompatActivity() {
 
                 Log.d("LoginActivity", "URL: $url")
                 if (url != null && url == "https://my.wisc.edu/web/expanded") {
+                    // After verifying user identity in LoginActivity.kt
+
+                    // Assume the user's access has been validated
+                    val hasAccess = true // Set this according to actual validation
+
+                    // Save to SharedPreferences
+                    val sharedPreferences = getSharedPreferences("user_prefs", MODE_PRIVATE)
+                    val editor = sharedPreferences.edit()
+                    editor.putBoolean("has_access", hasAccess)
+                    editor.apply()
+
                     val intent = Intent(this@LoginActivity, MainActivity::class.java)
                     startActivity(intent)
                     finish() //Close so cant return
                 }
             }
         }
+    }
+
+    private fun saveUserToFirestore(username: String, firstName: String, lastName: String) {
+        val userData = hashMapOf(
+            "username" to username,
+            "firstName" to firstName,
+            "lastName" to lastName,
+            "hasAccess" to determineUserAccess(username)
+        )
+
+        firestore.collection("users").document(username)
+            .set(userData)
+            .addOnSuccessListener {
+                Log.d("LoginActivity", "User data saved to Firestore successfully")
+            }
+            .addOnFailureListener { e ->
+                Log.e("LoginActivity", "Failed to save user data to Firestore", e)
+            }
+    }
+
+    private fun determineUserAccess(username: String): Boolean {
+        // Always grant access for all users
+        return true
     }
 }
