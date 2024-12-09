@@ -1,5 +1,7 @@
 package com.cs407.virtualwiscard;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.nfc.cardemulation.HostApduService;
 import android.os.Bundle;
 import android.util.Log;
@@ -16,8 +18,9 @@ public class MyHostApduService extends HostApduService {
 
         if (apduHex.startsWith(SELECT_APDU_HEADER)) {
             // Handle the SELECT command
-            String message = "brawlstars";
-            byte[] responseBytes = message.getBytes();
+            SharedPreferences sharedPreferences = getSharedPreferences("appPrefs", Context.MODE_PRIVATE);
+            String wiscardNumber = sharedPreferences.getString("wiscardNumberForNFC", "Unknown Wiscard Number");
+            byte[] responseBytes = wiscardNumber.getBytes();
             Log.d("HCE", "APDU response: " + bytesToHex(responseBytes));
             return responseBytes;
         }
