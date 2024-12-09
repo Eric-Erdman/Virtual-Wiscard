@@ -18,6 +18,7 @@ import android.graphics.Rect
 import android.net.Uri
 import android.nfc.NdefMessage
 import android.nfc.NdefRecord
+import android.nfc.NfcManager
 import android.nfc.NfcAdapter
 import android.nfc.Tag
 import android.nfc.tech.Ndef
@@ -29,7 +30,6 @@ import android.widget.Button
 import android.widget.TextView
 import androidx.annotation.RequiresApi
 import com.google.firebase.firestore.FirebaseFirestore
-
 
 
 
@@ -71,6 +71,27 @@ class MainActivity : AppCompatActivity() {
                     Toast.makeText(this, "Failed to update cache for $username", Toast.LENGTH_SHORT).show()
                 }
             }
+        }
+
+        val nfcManager = getSystemService(NFC_SERVICE) as NfcManager
+        nfcAdapter = nfcManager.defaultAdapter
+
+        if (nfcAdapter == null) {
+            Toast.makeText(this, "NFC is not supported on this device", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        // Add Trigger NFC Button logic
+        val triggerNfcButton: Button = findViewById(R.id.triggerNfcButton)
+        triggerNfcButton.setOnClickListener {
+            if (!nfcAdapter!!.isEnabled) {
+                Toast.makeText(this, "Please enable NFC to use this feature", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
+            // Start NFC signal
+            Toast.makeText(this, "NFC Signal Triggered!", Toast.LENGTH_SHORT).show()
+            startNfcSignal()
         }
 
 
@@ -193,6 +214,16 @@ class MainActivity : AppCompatActivity() {
         //logic we will add to communicate with server and send correct frequency based on needs
         //to unlock necessary door based on access levels etc and send message
         println("Door unlocked")
+    }
+
+    private fun startNfcSignal() {
+        // Simulate NFC payload (replace this with your actual data)
+        val apduData = byteArrayOf(
+            0x00.toByte(), 0xA4.toByte(), 0x04.toByte(), 0x00.toByte(), 0x07.toByte(),
+            0xF0.toByte(), 0x12.toByte(), 0x34.toByte(), 0x56.toByte(), 0x78.toByte(), 0x90.toByte()
+        )
+
+        Log.d("NFC", "NFC signal payload: ${apduData.joinToString { it.toString(16) }}")
     }
 
 }
