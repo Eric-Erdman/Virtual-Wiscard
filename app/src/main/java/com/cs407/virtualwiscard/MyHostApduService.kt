@@ -12,17 +12,30 @@ class MyHostApduService : HostApduService() {
     }
 
     override fun processCommandApdu(apdu: ByteArray, extras: Bundle): ByteArray {
+        // Log the received APDU command
         Log.d("HCE", "Received APDU: ${bytesToHex(apdu)}")
+
         val apduHex = bytesToHex(apdu)
+
+        // Debugging log to check which condition is matched
+        Log.d("HCE", "APDU starts with: ${apduHex.take(8)}")
 
         return when {
             apduHex.startsWith(SELECT_APDU_HEADER) -> {
-                val message = "Hello NFC!"
+                val message = "wiscard number" // Change message
+                Log.d("HCE", "Matched SELECT APDU, setting response message: $message")
+
+                // Convert message to byte array
                 val responseBytes = message.toByteArray()
-                Log.d("HCE", "APDU response: ${bytesToHex(responseBytes)}")
+
+                // Log the response bytes before sending
+                Log.d("HCE", "APDU response bytes: ${bytesToHex(responseBytes)}")
                 buildResponse(responseBytes)
             }
-            else -> hexStringToByteArray(RESPONSE_ERROR)
+            else -> {
+                Log.d("HCE", "APDU does not match SELECT header, sending error response.")
+                hexStringToByteArray(RESPONSE_ERROR) // Error response
+            }
         }
     }
 
