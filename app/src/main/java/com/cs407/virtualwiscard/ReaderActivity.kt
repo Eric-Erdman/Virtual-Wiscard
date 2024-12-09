@@ -1,6 +1,5 @@
-package com.example.capp
+package com.cs407.virtualwiscard
 
-import android.R
 import android.nfc.NfcAdapter
 import android.nfc.Tag
 import android.nfc.tech.IsoDep
@@ -10,20 +9,18 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.cs407.virtualwiscard.LogAdapter
 import java.io.IOException
 
-class ReceiverActivity : AppCompatActivity() {
+class ReaderActivity : AppCompatActivity() {
     private var nfcAdapter: NfcAdapter? = null
-    private var recyclerView: RecyclerView? = null
     private var logAdapter: LogAdapter? = null
-    private var logList: MutableList<String>? = null
+    private var logList = mutableListOf<String>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_receiver)
 
-        recyclerView = findViewById<RecyclerView>(R.id.recyclerView)
+        val recyclerView = findViewById<RecyclerView>(R.id.recyclerView)
         logList = ArrayList()
         logAdapter = LogAdapter(logList)
         recyclerView.setLayoutManager(LinearLayoutManager(this))

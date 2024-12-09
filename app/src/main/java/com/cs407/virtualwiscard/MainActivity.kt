@@ -39,7 +39,7 @@ class MainActivity : AppCompatActivity() {
         val universityBanner: ImageView = findViewById(R.id.universityBanner)
         universityBanner.setOnLongClickListener {
             //go to nfc reader page
-            val intent = Intent(this, NFCReadingActivity::class.java)
+            val intent = Intent(this, ReaderActivity::class.java)
             startActivity(intent)
             true
         }

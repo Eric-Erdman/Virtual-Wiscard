@@ -25,7 +25,6 @@ class LoginActivity : AppCompatActivity() {
         setContentView(R.layout.activity_login)
         val sharedPreferences = getSharedPreferences("MyPreferences", MODE_PRIVATE)
 
-
         val myWebView: WebView = findViewById(R.id.webView)
 
         //Enable javascript

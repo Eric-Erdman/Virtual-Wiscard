@@ -1,4 +1,4 @@
-package com.example.capp
+package com.cs407.virtualwiscard
 
 import android.nfc.cardemulation.HostApduService
 import android.os.Bundle
