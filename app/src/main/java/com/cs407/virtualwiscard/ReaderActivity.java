@@ -5,6 +5,8 @@ import android.nfc.Tag;
 import android.nfc.tech.IsoDep;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -41,6 +43,9 @@ public class ReaderActivity extends AppCompatActivity {
             finish();
             return;
         }
+
+        Button backButton = findViewById(R.id.back_button);
+        backButton.setOnClickListener(v -> onBackPressed());
 
         enableReaderMode();
     }
