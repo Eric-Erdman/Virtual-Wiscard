@@ -41,11 +41,6 @@ class LoginActivity : AppCompatActivity() {
             override fun shouldOverrideUrlLoading(view: WebView?, request: WebResourceRequest?): Boolean {
                 return false //Allow the webView load the URL
             }
-//            override fun shouldInterceptRequest(view: WebView?, request: WebResourceRequest?): WebResourceResponse? {
-//                val url = request?.url.toString()
-//                Log.d("LoginActivity", "Intercepted request: $url")
-//                return super.shouldInterceptRequest(view, request)
-//            }
 
             fun fetchAndLogUsername() {
                 val cookies = CookieManager.getInstance().getCookie("https://my.wisc.edu")
@@ -54,12 +49,12 @@ class LoginActivity : AppCompatActivity() {
                     return
                 }
 
-                Log.d("LoginActivity", "Cookies: $cookies") // Log cookies for debugging
+                Log.d("LoginActivity", "Cookies: $cookies")
 
                 val client = OkHttpClient()
                 val request = Request.Builder()
-                    .url("https://my.wisc.edu/portal/web/session.json") // Update with your endpoint
-                    .addHeader("Cookie", cookies) // Pass the cookies to authenticate the request
+                    .url("https://my.wisc.edu/portal/web/session.json")
+                    .addHeader("Cookie", cookies)
                     .build()
 
                 client.newCall(request).enqueue(object : Callback {
@@ -81,9 +76,9 @@ class LoginActivity : AppCompatActivity() {
                                 Log.d("LoginActivity", "Fetched First Name: $firstName")
                                 Log.d("LoginActivity", "Fetched Last Name: $lastName")
 
-                                // Save all details to SharedPreferences
+                                //save details
                                 saveUserDetailsToPreferences(userName, firstName, lastName)
-                                // Save user details to Firestore
+                                //save user to Firestone
                                 saveUserToFirestore(userName, firstName, lastName)
 
                             } catch (e: Exception) {
@@ -124,12 +119,12 @@ class LoginActivity : AppCompatActivity() {
 
                                 Log.d("LoginActivity", "Wiscard Number Retrieved: $wiscardNumber")
 
-                                // Save the Wiscard Number
+                                //save wisc number
                                 val sharedPreferences = getSharedPreferences("appPrefs", Context.MODE_PRIVATE)
                                 sharedPreferences.edit().putString("wiscardNumber", wiscardNumber).apply()
                                 Log.d("LoginActivity", "Wiscard Number Saved: $wiscardNumber")
 
-                                // Move to MainActivity only after saving
+                                //go to main activity
                                 runOnUiThread {
                                     val intent = Intent(this@LoginActivity, MainActivity::class.java)
                                     startActivity(intent)
@@ -174,12 +169,8 @@ class LoginActivity : AppCompatActivity() {
 
                 Log.d("LoginActivity", "URL: $url")
                 if (url != null && url == "https://my.wisc.edu/web/expanded") {
-                    // After verifying user identity in LoginActivity.kt
-
-                    // Assume the user's access has been validated
                     val hasAccess = true // Set this according to actual validation
 
-                    // Save to SharedPreferences
                     val sharedPreferences = getSharedPreferences("user_prefs", MODE_PRIVATE)
                     val editor = sharedPreferences.edit()
                     editor.putBoolean("has_access", hasAccess)
@@ -212,7 +203,7 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun determineUserAccess(username: String): Boolean {
-        // Always grant access for all users
+        //Always grant access for all users
         return true
     }
 }

@@ -9,29 +9,18 @@ import android.util.Log;
 
 public class MyHostApduService extends HostApduService {
 
-    private static final String SELECT_APDU_HEADER = "00A40400"; // APDU command for SELECT
-    private static final String RESPONSE_ERROR = "6F00"; // Error response
+    private static final String SELECT_APDU_HEADER = "00A40400";
+    private static final String RESPONSE_ERROR = "6F00";
 
     @Override
     public byte[] processCommandApdu(byte[] apdu, Bundle extras) {
         Log.d("HCE", "Received APDU: " + bytesToHex(apdu));
         String apduHex = bytesToHex(apdu);
 
-        /*
-        if (apduHex.startsWith(SELECT_APDU_HEADER)) {
-            // Handle the SELECT command
-            SharedPreferences sharedPreferences = getSharedPreferences("appPrefs", Context.MODE_PRIVATE);
-            String wiscardNumber = sharedPreferences.getString("wiscardNumberForNFC", "Unknown Wiscard Number");
-            byte[] responseBytes = wiscardNumber.getBytes();
-            Log.d("HCE", "APDU response: " + bytesToHex(responseBytes));
-            return responseBytes;
-        }
-        */
-
         if (apduHex.startsWith(SELECT_APDU_HEADER)) {
             Log.d("HCE", "AID selected");
 
-            // Check user permissions from cache
+            //check user permissions
             boolean userHasAccess = checkCachedUserAccess();
 
             String response = "";
@@ -48,7 +37,7 @@ public class MyHostApduService extends HostApduService {
             return responseBytes;
         }
 
-        // Return error if command is not recognized
+        //return if error
         return hexStringToByteArray(RESPONSE_ERROR);
     }
 
@@ -85,7 +74,6 @@ public class MyHostApduService extends HostApduService {
         return data;
     }
 
-    // Add Kotlin equivalent function in Java
     public interface Callback {
         void onComplete(boolean success);
     }
@@ -99,11 +87,11 @@ public class MyHostApduService extends HostApduService {
                     Log.d("MyHostApduService", "Access fetched for " + username + ": " + hasAccess);
                     SharedPreferences sharedPreferences = context.getSharedPreferences("user_prefs", Context.MODE_PRIVATE);
                     sharedPreferences.edit().putBoolean("has_access", hasAccess).apply();
-                    callback.onComplete(true); // Notify success
+                    callback.onComplete(true);
                 })
                 .addOnFailureListener(e -> {
                     Log.e("MyHostApduService", "Failed to fetch access for " + username, e);
-                    callback.onComplete(false); // Notify failure
+                    callback.onComplete(false);
                 });
     }
 

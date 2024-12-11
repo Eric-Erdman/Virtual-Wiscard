@@ -25,12 +25,12 @@ class BalanceActivity : AppCompatActivity() {
 
         val webView: WebView = findViewById(R.id.webview_balance)
         webView.settings.apply {
-            javaScriptEnabled = true // Enable JavaScript
-            cacheMode = WebSettings.LOAD_CACHE_ELSE_NETWORK // Cache settings
-            loadWithOverviewMode = true // Load page to fit WebView screen
-            useWideViewPort = true // Enable viewport for responsive design
-            builtInZoomControls = true // Allow zooming
-            displayZoomControls = false // Disable zoom controls overlay
+            javaScriptEnabled = true
+            cacheMode = WebSettings.LOAD_CACHE_ELSE_NETWORK
+            loadWithOverviewMode = true
+            useWideViewPort = true
+            builtInZoomControls = true
+            displayZoomControls = false
         }
 
         webView.webViewClient = object : WebViewClient() {
@@ -41,7 +41,6 @@ class BalanceActivity : AppCompatActivity() {
             override fun onPageFinished(view: WebView?, url: String?) {
                 super.onPageFinished(view, url)
 
-                // Use JavaScript to scroll to the desired section
                 webView.evaluateJavascript(
                     """
                     (function() {

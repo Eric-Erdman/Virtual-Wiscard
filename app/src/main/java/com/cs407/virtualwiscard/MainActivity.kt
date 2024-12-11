@@ -75,10 +75,10 @@ class MainActivity : AppCompatActivity() {
 
         sharedPreferences.edit().putString("wiscardNumberForNFC", wiscardNumber).apply()
 
-        // Step 1: Get Access Token
+        //get access token
         OAuthService.getAccessToken(clientId, clientSecret) { accessToken ->
             if (accessToken != null) {
-                // Step 2: Use Access Token to Call Mock Person API
+                //call mock person using token
                 val mockPersonApiUrl = "https://mock.api.wisc.edu/people"
                 ApiService.fetchPeople(mockPersonApiUrl, accessToken) { people ->
                     runOnUiThread {
@@ -103,7 +103,7 @@ class MainActivity : AppCompatActivity() {
         for (i in 0 until bmb.piecePlaceEnum.pieceNumber()) {
             val builder = HamButton.Builder()
                 .normalImageRes(R.drawable.uw_logo)
-                .normalText(if (i == 0) "Wiscard Balance" else "Logout") // Set custom text for the logout button
+                .normalText(if (i == 0) "Wiscard Balance" else "Logout")
                 .textSize(23)
                 .textPadding(Rect(0,6,0,0))
                 .normalColor(Color.RED)
@@ -112,7 +112,7 @@ class MainActivity : AppCompatActivity() {
                     if (index == 0) {
                         val intent = Intent(this@MainActivity, BalanceActivity::class.java)
                         startActivity(intent)
-                    } else { // Define behavior for the logout button
+                    } else {
                         val intent = Intent(this@MainActivity, LogoutActivity::class.java)
                         startActivity(intent)
                     }
@@ -121,15 +121,12 @@ class MainActivity : AppCompatActivity() {
             bmb.addBuilder(builder)
         }
 
-        // Initialize NFC Adapter
         val nfcErrorMessage = findViewById<TextView>(R.id.nfcErrorMessage)
         nfcAdapter = NfcAdapter.getDefaultAdapter(this)
 
         if (nfcAdapter == null) {
-            //if NFC not supported show message
             nfcErrorMessage.visibility = View.VISIBLE
         } else {
-            //Prepare NFC Foreground Dispatch
             pendingIntent = PendingIntent.getActivity(
                 this, 0,
                 Intent(this, javaClass).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP),

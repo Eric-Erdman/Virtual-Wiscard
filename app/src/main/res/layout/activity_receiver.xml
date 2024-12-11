@@ -2,6 +2,27 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <!-- Full-Screen Red Background -->
+    <LinearLayout
+        android:id="@+id/red_overlay"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:visibility="visible"
+        android:background="@android:color/holo_red_dark">
+
+        <!-- Failure Message -->
+        <TextView
+            android:id="@+id/failure_message"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Access Denied"
+            android:textSize="24sp"
+            android:textColor="@android:color/white"
+            android:textStyle="bold"
+            android:gravity="center" />
+    </LinearLayout>
+
     <!-- Full-Screen Green Background -->
     <LinearLayout
         android:id="@+id/green_overlay"
@@ -11,18 +32,17 @@
         android:visibility="visible"
         android:background="@android:color/holo_green_dark">
 
-        <!-- Access Message -->
+        <!-- Success Message -->
         <TextView
             android:id="@+id/access_message"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Debug Message"
+            android:text="Access Granted"
             android:textSize="24sp"
             android:textColor="@android:color/white"
             android:textStyle="bold"
             android:gravity="center" />
     </LinearLayout>
-
 
     <!-- Main Content -->
     <LinearLayout
