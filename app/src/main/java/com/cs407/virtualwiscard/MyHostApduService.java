@@ -1,17 +1,15 @@
 package com.cs407.virtualwiscard;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.nfc.cardemulation.HostApduService;
 import android.os.Bundle;
 import android.util.Log;
 
-
 public class MyHostApduService extends HostApduService {
 
     private static final String SELECT_APDU_HEADER = "00A40400"; // APDU command for SELECT
-    private static final String RESPONSE_OK = "9000"; // Success response
     private static final String RESPONSE_ERROR = "6F00"; // Error response
-
-    private static final String KEEP_ALIVE_APDU = "00"; // Empty APDU for keeping connection alive
 
     @Override
     public byte[] processCommandApdu(byte[] apdu, Bundle extras) {
@@ -20,16 +18,15 @@ public class MyHostApduService extends HostApduService {
 
         if (apduHex.startsWith(SELECT_APDU_HEADER)) {
             // Handle the SELECT command
-            String message = "Hello Bitch!";
-            byte[] responseBytes = message.getBytes();
+            SharedPreferences sharedPreferences = getSharedPreferences("appPrefs", Context.MODE_PRIVATE);
+            String wiscardNumber = sharedPreferences.getString("wiscardNumberForNFC", "Unknown Wiscard Number");
+            byte[] responseBytes = wiscardNumber.getBytes();
             Log.d("HCE", "APDU response: " + bytesToHex(responseBytes));
-            return buildResponse(message.getBytes());
+            return responseBytes;
         }
 
         // Return error if command is not recognized
         return hexStringToByteArray(RESPONSE_ERROR);
-
-
     }
 
     @Override
@@ -45,17 +42,6 @@ public class MyHostApduService extends HostApduService {
             default:
                 Log.d("HCE", "Deactivation for unknown reason.");
         }
-    }
-
-    private byte[] buildResponse(byte[] data) {
-        return concatenateArrays(data, hexStringToByteArray(RESPONSE_OK));
-    }
-
-    private byte[] concatenateArrays(byte[] array1, byte[] array2) {
-        byte[] result = new byte[array1.length + array2.length];
-        System.arraycopy(array1, 0, result, 0, array1.length);
-        System.arraycopy(array2, 0, result, array1.length, array2.length);
-        return result;
     }
 
     private String bytesToHex(byte[] bytes) {
@@ -76,4 +62,5 @@ public class MyHostApduService extends HostApduService {
         return data;
     }
 }
+
 
