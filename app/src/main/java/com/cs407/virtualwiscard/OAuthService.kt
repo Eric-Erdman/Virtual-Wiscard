@@ -17,12 +17,10 @@ object OAuthService {
                 connection.requestMethod = "POST"
                 connection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded")
 
-                // Add Basic Authorization Header
                 val credentials = "$clientId:$clientSecret"
                 val authHeader = "Basic " + Base64.encodeToString(credentials.toByteArray(), Base64.NO_WRAP)
                 connection.setRequestProperty("Authorization", authHeader)
 
-                // Add POST Body (grant_type)
                 connection.doOutput = true
                 val body = "grant_type=client_credentials"
                 val outputStream: OutputStream = connection.outputStream
@@ -30,7 +28,7 @@ object OAuthService {
                 outputStream.flush()
                 outputStream.close()
 
-                // Handle Response
+                //handle response
                 val responseCode = connection.responseCode
                 if (responseCode == HttpURLConnection.HTTP_OK) {
                     val response = connection.inputStream.bufferedReader().use { it.readText() }
