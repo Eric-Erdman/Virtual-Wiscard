@@ -3,6 +3,8 @@ package com.cs407.virtualwiscard;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.ObjectAnimator;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.nfc.NfcAdapter;
 import android.nfc.Tag;
 import android.nfc.tech.IsoDep;
@@ -37,7 +39,7 @@ public class ReaderActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_receiver);
 
-        //initiate recylcler stuff
+        // Initialize RecyclerView
         recyclerView = findViewById(R.id.recyclerView);
         logList = new ArrayList<>();
         logAdapter = new LogAdapter(logList);
@@ -51,6 +53,7 @@ public class ReaderActivity extends AppCompatActivity {
             return;
         }
 
+        // Initialize Overlays and Messages
         greenOverlay = findViewById(R.id.green_overlay);
         accessMessage = findViewById(R.id.access_message);
         redOverlay = findViewById(R.id.red_overlay);
@@ -59,8 +62,28 @@ public class ReaderActivity extends AppCompatActivity {
         Button backButton = findViewById(R.id.back_button);
         backButton.setOnClickListener(v -> onBackPressed());
 
+
+        // Handle Test Button
+        Button testButton = findViewById(R.id.testButton);
+        testButton.setOnClickListener(v -> {
+            SharedPreferences sharedPreferences = getSharedPreferences("VirtualWiscardPrefs", MODE_PRIVATE);
+            String tempUsername = sharedPreferences.getString("username", "hu434");
+            final String username = (tempUsername != null) ? tempUsername : "hu434"; // Ensure username is final
+
+            MyHostApduService.updateUserAccessCache(this, username, success -> {
+                if (success) {
+                    Log.d(TAG, "Access cache update succeeded for user: " + username);
+                    Toast.makeText(this, "Cache updated successfully for " + username, Toast.LENGTH_SHORT).show();
+                } else {
+                    Log.e(TAG, "Access cache update failed for user: " + username);
+                    Toast.makeText(this, "Failed to update cache for " + username, Toast.LENGTH_SHORT).show();
+                }
+            });
+        });
+
         enableReaderMode();
     }
+
 
     private void enableReaderMode() {
         nfcAdapter.enableReaderMode(this, tag -> {

@@ -15,10 +15,12 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.graphics.Rect
+import android.graphics.Typeface
 import android.nfc.NfcAdapter
 import android.nfc.Tag
 import android.os.Build
 import android.util.Log
+import android.view.Gravity
 import android.view.View
 import android.widget.Button
 import android.widget.ImageView
@@ -57,21 +59,6 @@ class MainActivity : AppCompatActivity() {
         val wiscardNumber = sharedPreferences.getString("wiscardNumber", "Not Available")
         Log.d("MainActivity", "Retrieved Wiscard Number: $wiscardNumber")
 
-        val testButton: Button = findViewById(R.id.testButton)
-        testButton.setOnClickListener {
-            val sharedPreferences = getSharedPreferences("VirtualWiscardPrefs", MODE_PRIVATE)
-            val username = sharedPreferences.getString("username", "hu434") ?: "hu434"
-
-            MyHostApduService.updateUserAccessCache(this, username) { success ->
-                if (success) {
-                    Log.d("MainActivity", "Access cache update succeeded for user: $username")
-                    Toast.makeText(this, "Cache updated successfully for $username", Toast.LENGTH_SHORT).show()
-                } else {
-                    Log.e("MainActivity", "Access cache update failed for user: $username")
-                    Toast.makeText(this, "Failed to update cache for $username", Toast.LENGTH_SHORT).show()
-                }
-            }
-        }
 
         sharedPreferences.edit().putString("wiscardNumberForNFC", wiscardNumber).apply()
 
@@ -104,8 +91,11 @@ class MainActivity : AppCompatActivity() {
             val builder = HamButton.Builder()
                 .normalImageRes(R.drawable.uw_logo)
                 .normalText(if (i == 0) "Wiscard Balance" else "Logout")
-                .textSize(23)
-                .textPadding(Rect(0,6,0,0))
+                .textSize(21)
+                .textGravity(Gravity.CENTER)
+                .typeface(Typeface.DEFAULT_BOLD)
+                .textPadding(Rect(16,6,0,0))
+                .textGravity(Gravity.CENTER_VERTICAL or Gravity.START)
                 .normalColor(Color.RED)
                 .highlightedColor(Color.WHITE)
                 .listener { index ->

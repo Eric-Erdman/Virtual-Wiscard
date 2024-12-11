@@ -8,7 +8,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center"
-        android:visibility="visible"
+        android:visibility="gone"
         android:background="@android:color/holo_red_dark">
 
         <!-- Failure Message -->
@@ -29,7 +29,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center"
-        android:visibility="visible"
+        android:visibility="gone"
         android:background="@android:color/holo_green_dark">
 
         <!-- Success Message -->
@@ -52,16 +52,34 @@
         android:padding="16dp"
         android:background="@android:color/white">
 
-        <!-- Back Button -->
-        <Button
-            android:id="@+id/back_button"
-            android:layout_width="wrap_content"
+        <!-- Horizontal Layout for Buttons -->
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Back"
-            android:layout_gravity="start"
-            android:padding="8dp"
-            android:backgroundTint="@android:color/holo_red_light"
-            android:textColor="@android:color/white" />
+            android:orientation="horizontal"
+            android:gravity="start">
+
+            <!-- Back Button -->
+            <Button
+                android:id="@+id/back_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Back"
+                android:padding="8dp"
+                android:backgroundTint="@android:color/holo_red_light"
+                android:textColor="@android:color/white" />
+
+            <!-- Test Access Cache Button -->
+            <Button
+                android:id="@+id/testButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Test Access Cache"
+                android:layout_marginStart="16dp"
+                android:padding="8dp"
+                android:backgroundTint="@android:color/holo_red_light"
+                android:textColor="@android:color/white" />
+        </LinearLayout>
 
         <!-- Title -->
         <TextView
