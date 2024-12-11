@@ -7,8 +7,6 @@
     <uses-feature android:name="android.hardware.nfc" android:required="true" />
     <uses-feature android:name="android.hardware.nfc.hce" android:required="true" />
 
-
-
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -53,12 +51,7 @@
         <activity
             android:name=".LogoutActivity"
             android:exported="true" />
-
-        <!-- NFCReadingActivity -->
-        <activity
-            android:name=".NFCReadingActivity"
-            android:exported="true"
-            android:parentActivityName=".MainActivity" />
+        <activity android:name=".ReaderActivity" />
     </application>
 
 </manifest>

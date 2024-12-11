@@ -6,7 +6,6 @@ import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import android.webkit.WebResourceRequest
-import android.webkit.WebResourceResponse
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import android.util.Log
@@ -30,7 +29,6 @@ class LoginActivity : AppCompatActivity() {
         setContentView(R.layout.activity_login)
         firestore = FirebaseFirestore.getInstance()
         val sharedPreferences = getSharedPreferences("MyPreferences", MODE_PRIVATE)
-
 
         val myWebView: WebView = findViewById(R.id.webView)
 
@@ -152,8 +150,6 @@ class LoginActivity : AppCompatActivity() {
                 })
             }
 
-
-
             fun saveUserDetailsToPreferences(username: String, firstName: String, lastName: String) {
                 val sharedPref = getSharedPreferences("VirtualWiscardPrefs", MODE_PRIVATE)
                 val editor = sharedPref.edit()
@@ -164,16 +160,6 @@ class LoginActivity : AppCompatActivity() {
 
                 Log.d("LoginActivity", "User details saved: $username, $firstName, $lastName")
             }
-
-
-
-
-
-
-
-
-
-
 
             override fun onPageFinished(view: WebView?, url: String?) {
                 super.onPageFinished(view, url)
