@@ -3,6 +3,7 @@ package com.cs407.virtualwiscard;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.nfc.cardemulation.HostApduService;
+import com.google.firebase.firestore.FirebaseFirestore;
 import android.os.Bundle;
 import android.util.Log;
 
@@ -16,11 +17,33 @@ public class MyHostApduService extends HostApduService {
         Log.d("HCE", "Received APDU: " + bytesToHex(apdu));
         String apduHex = bytesToHex(apdu);
 
+        /*
         if (apduHex.startsWith(SELECT_APDU_HEADER)) {
             // Handle the SELECT command
             SharedPreferences sharedPreferences = getSharedPreferences("appPrefs", Context.MODE_PRIVATE);
             String wiscardNumber = sharedPreferences.getString("wiscardNumberForNFC", "Unknown Wiscard Number");
             byte[] responseBytes = wiscardNumber.getBytes();
+            Log.d("HCE", "APDU response: " + bytesToHex(responseBytes));
+            return responseBytes;
+        }
+        */
+
+        if (apduHex.startsWith(SELECT_APDU_HEADER)) {
+            Log.d("HCE", "AID selected");
+
+            // Check user permissions from cache
+            boolean userHasAccess = checkCachedUserAccess();
+
+            String response = "";
+            if (userHasAccess) {
+                Log.d("HCE", "Permission granted: PASS");
+                response = "PASS"; // User has permission
+            } else {
+                Log.d("HCE", "Permission denied: FAIL");
+                response = "FAIL"; // User does not have permission
+            }
+
+            byte[] responseBytes = response.getBytes();
             Log.d("HCE", "APDU response: " + bytesToHex(responseBytes));
             return responseBytes;
         }
@@ -61,6 +84,33 @@ public class MyHostApduService extends HostApduService {
         }
         return data;
     }
+
+    // Add Kotlin equivalent function in Java
+    public interface Callback {
+        void onComplete(boolean success);
+    }
+
+    public static void updateUserAccessCache(Context context, String username, Callback callback) {
+        FirebaseFirestore firestore = FirebaseFirestore.getInstance();
+        firestore.collection("users").document(username)
+                .get()
+                .addOnSuccessListener(document -> {
+                    boolean hasAccess = document != null && document.getBoolean("hasAccess") != null && document.getBoolean("hasAccess");
+                    Log.d("MyHostApduService", "Access fetched for " + username + ": " + hasAccess);
+                    SharedPreferences sharedPreferences = context.getSharedPreferences("user_prefs", Context.MODE_PRIVATE);
+                    sharedPreferences.edit().putBoolean("has_access", hasAccess).apply();
+                    callback.onComplete(true); // Notify success
+                })
+                .addOnFailureListener(e -> {
+                    Log.e("MyHostApduService", "Failed to fetch access for " + username, e);
+                    callback.onComplete(false); // Notify failure
+                });
+    }
+
+    public boolean checkCachedUserAccess() {
+        SharedPreferences sharedPreferences = getSharedPreferences("user_prefs", Context.MODE_PRIVATE);
+        boolean hasAccess = sharedPreferences.getBoolean("has_access", false);
+        Log.d("MyHostApduService", "Cached user access: " + hasAccess);
+        return hasAccess;
+    }
 }
-
-

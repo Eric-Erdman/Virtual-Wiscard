@@ -13,8 +13,6 @@ import android.webkit.CookieManager
 import okhttp3.*
 import org.json.JSONException
 import com.google.firebase.firestore.FirebaseFirestore
-
-
 import org.json.JSONObject
 import java.io.IOException
 

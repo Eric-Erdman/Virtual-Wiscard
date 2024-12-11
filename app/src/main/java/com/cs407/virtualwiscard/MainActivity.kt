@@ -20,15 +20,10 @@ import android.nfc.Tag
 import android.os.Build
 import android.util.Log
 import android.view.View
-import android.webkit.WebView
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.annotation.RequiresApi
-import com.google.firebase.firestore.FirebaseFirestore
-
-
-
 
 class MainActivity : AppCompatActivity() {
 
@@ -150,7 +145,6 @@ class MainActivity : AppCompatActivity() {
         nameTextView.text = fullName
         val wiscardNumberTextView: TextView = findViewById(R.id.studentID)
         wiscardNumberTextView.text = wiscardNumber
-
     }
 
     override fun onResume() {
@@ -180,8 +174,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun handleNfcTag(tag: Tag) {
-
-        //confirm
         Toast.makeText(this, "Door unlocked successfully!", Toast.LENGTH_SHORT).show()
     }
 }
